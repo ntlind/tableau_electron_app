@@ -1,21 +1,24 @@
 {
   "private": true,
-  "name": "my-nextron-app",
-  "description": "My application description",
+  "name": "electron-nextjs-app",
+  "description": "Boilerplate code for building Electron apps with Next.js, TypeScript, Tailwind, and Electron",
   "version": "1.0.0",
-  "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
+  "author": "Nick Lind <nthorlind@gmail.com>",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
     "build": "nextron build",
-    "postinstall": "electron-builder install-app-deps"
+    "package": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.4",
+    "autoprefixer": "^10.4.8",
     "electron-serve": "^1.1.0",
-    "electron-store": "^8.0.1"
+    "electron-store": "^8.0.1",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8"
   },
   "devDependencies": {
-    "@material-ui/core": "^4.12.4",
     "@types/node": "^16.11.7",
     "@types/react": "^18.0.8",
     "electron": "^18.2.0",
