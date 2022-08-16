@@ -48,7 +48,6 @@ export default function DataSelector({
         dimension_array ? getItems(dimension_array) : Array(),
         [],
         [],
-        [],
       ]);
     }
   }, [data, state]);
@@ -189,7 +188,6 @@ export default function DataSelector({
                         {
                           0: "Rows (Y-Axis)",
                           1: "Columns (X-Axis)",
-                          2: "Groupers",
                         }[ind]
                       }
                     </div>
