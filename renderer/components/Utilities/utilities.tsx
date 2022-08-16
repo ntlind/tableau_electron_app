@@ -1,6 +1,7 @@
 import BarChart from "../D3/BarChart";
 import HorizontalBarChart from "../D3/HorizontalBarChart";
 import StackedBarChart from "../D3/StackedBarchart";
+import { useState } from "react";
 
 import Dropzone from "react-dropzone";
 import { HiUpload } from "react-icons/hi";
@@ -141,7 +142,9 @@ export function renderOrientedBarChart({
 
     let firstCol = cols.shift();
 
-    if (cols == undefined || cols.length != 0) {
+    if (cols.length > 1) {
+      return null;
+    } else if (cols == undefined || cols.length == 1) {
       return (
         <StackedBarChart
           data={data}
