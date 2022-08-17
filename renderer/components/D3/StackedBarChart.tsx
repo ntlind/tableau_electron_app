@@ -42,7 +42,7 @@ export default function BarChart({ data, xVar, yVar, grouper }: IProps) {
       .range(data.style.colors.slice(0, 2))
       .domain([0, grouperSet.length]);
 
-    let margin = { top: 80, right: 50, bottom: 90, left: 80 };
+    let margin = { top: 80, right: 50, bottom: 50, left: 80 };
 
     setHeight(parentRef.current.offsetHeight - margin.top - margin.bottom);
     setWidth(parentRef.current.offsetWidth - margin.left - margin.right);
@@ -58,7 +58,11 @@ export default function BarChart({ data, xVar, yVar, grouper }: IProps) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       // X axis
-      var x = d3.scaleBand().range([0, width]).domain(xValues).padding(0.2);
+      var x = d3
+        .scaleBand()
+        .range([0, width - margin.right])
+        .domain(xValues)
+        .padding(0.2);
       svg
         .append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -77,7 +81,7 @@ export default function BarChart({ data, xVar, yVar, grouper }: IProps) {
       var y = d3
         .scaleLinear()
         .domain([0, Math.max.apply([], yValues)])
-        .range([height, 0]);
+        .range([height - margin.bottom, 0]);
       svg.append("g").call(d3.axisLeft(y).ticks(10));
 
       // Bars
@@ -177,12 +181,12 @@ export default function BarChart({ data, xVar, yVar, grouper }: IProps) {
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-          return "translate(0," + i * 20 + ")";
+          return "translate(" + (width - 30) + ", " + i * 20 + ")";
         });
 
       legend
         .append("rect")
-        .attr("x", 59 + 18)
+        .attr("x", 10)
         .attr("width", 18)
         .attr("height", 18)
         .style("fill", (i) => {
@@ -191,7 +195,7 @@ export default function BarChart({ data, xVar, yVar, grouper }: IProps) {
 
       legend
         .append("text")
-        .attr("x", 59 + 40)
+        .attr("x", 40)
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "start")
