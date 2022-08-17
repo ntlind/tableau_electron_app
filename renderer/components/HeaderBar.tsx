@@ -72,13 +72,6 @@ export default function HeaderBar({
                   [],
                   [
                     {
-                      content: "sales",
-                      id: "item-sales0-1658126461166",
-                      type: "number",
-                    },
-                  ],
-                  [
-                    {
                       content: "datetime",
                       id: "item-datetime0-1658126461166",
                       type: "string",
@@ -87,6 +80,13 @@ export default function HeaderBar({
                       content: "state",
                       id: "item-state0-1658126461166",
                       type: "string",
+                    },
+                  ],
+                  [
+                    {
+                      content: "sales",
+                      id: "item-sales0-1658126461166",
+                      type: "number",
                     },
                   ],
                 ]);

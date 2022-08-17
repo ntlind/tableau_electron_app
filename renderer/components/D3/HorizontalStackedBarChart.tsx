@@ -6,12 +6,13 @@ interface IProps {
   data: any;
   xVar: string;
   yVar: string;
+  grouper?: Array<string>;
 }
 
-export default function BarChart({ data, xVar, yVar }: IProps) {
+export default function BarChart({ data, xVar, yVar, grouper }: IProps) {
+  const rerenderFlag = useWidth();
   const d3Container = useRef(null);
   const parentRef = useRef(null);
-  const rerenderFlag = useWidth();
   const [height, setHeight] = useState(null);
   const [width, setWidth] = useState(null);
   const [meta, setMeta] = useState({
@@ -34,7 +35,14 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
   let tickCriteria = (yValues.length / 20).toFixed();
 
   useEffect(() => {
-    let margin = { top: 60, right: 30, bottom: 60, left: 120 };
+    let grouperSet = [...new Set(data.aggData.map((x) => x[grouper]))];
+    const zMap = grouperSet.reduce((a, v, i) => ({ ...a, [v]: i }), {});
+    var colorScale = d3
+      .scaleLinear()
+      .range(data.style.colors.slice(0, 2))
+      .domain([0, grouperSet.length]);
+
+    let margin = { top: 80, right: 50, bottom: 50, left: 80 };
 
     setHeight(parentRef.current.offsetHeight - margin.top - margin.bottom);
     setWidth(parentRef.current.offsetWidth - margin.left - margin.right);
@@ -49,11 +57,11 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      // xAxis
+      // X axis
       var x = d3
         .scaleLinear()
         .domain([0, Math.max.apply([], xValues)])
-        .range([0, width]);
+        .range([0, width - margin.right]);
       svg
         .append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -62,7 +70,7 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         .attr("transform", "translate(-10,0)rotate(-45)")
         .style("text-anchor", "end");
 
-      // yAxis
+      // Add Y axis
       var y = d3.scaleBand().range([0, height]).domain(yValues).padding(0.2);
       svg.append("g").call(
         d3.axisLeft(y).tickValues(
@@ -72,59 +80,6 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
           })
         )
       );
-
-      // Color
-      let colorVar;
-      if (data.style.colorScale === "xAxis_gradient") {
-        svg
-          .append("linearGradient")
-          .attr("id", "line-gradient")
-          .attr("gradientUnits", "userSpaceOnUse")
-          .selectAll("stop")
-          .data([
-            { offset: "0%", color: data.style.colors[0] },
-            { offset: "100%", color: data.style.colors[1] },
-          ])
-          .enter()
-          .append("stop")
-          .attr("offset", function (d: any) {
-            return d.offset;
-          })
-          .attr("stop-color", function (d: any) {
-            return d.color;
-          });
-
-        colorVar = "url(#line-gradient)";
-      } else if (data.style.colorScale === "yAxis_gradient") {
-        svg
-          .append("linearGradient")
-          .attr("id", "line-gradient")
-          .attr("gradientUnits", "userSpaceOnUse")
-          .attr("x1", 0)
-          .attr("y1", 0)
-          .attr("x2", 0)
-          .attr("y2", "100%")
-          .selectAll("stop")
-          .data([
-            { offset: "0%", color: data.style.colors[0] },
-            { offset: "100%", color: data.style.colors[1] },
-          ])
-          .enter()
-          .append("stop")
-          .attr("offset", function (d: any) {
-            return d.offset;
-          })
-          .attr("stop-color", function (d: any) {
-            return d.color;
-          });
-
-        colorVar = "url(#line-gradient)";
-      } else {
-        colorVar = Array.isArray(data.style.colors)
-          ? data.style.colors[0]
-          : data.style.colors;
-      }
-
       // Bars
       svg
         .selectAll("hbarchart")
@@ -140,8 +95,11 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         .attr("width", function (d) {
           return x(d[xVar]);
         })
-        .attr("height", y.bandwidth()) // always equal to 0
-        .attr("fill", colorVar)
+        .attr("height", y.bandwidth())
+        .attr("fill", (i) => {
+          // @ts-ignore
+          return colorScale(zMap[i[grouper[0]]]);
+        })
         // disabled as it conflicts with hoverover features
         // .on("click", function (e) {
         //   //@ts-ignore
@@ -153,22 +111,8 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         //     d3.select(this).style("fill", accentColor);
         //   }
         // })
-        // Hoverovers
-        .on("mouseover", function (e, d) {
-          setMeta({
-            ...meta,
-            hoverMessage: [d[yVar], d[xVar]],
-            xHover: e.x,
-            yHover: e.y,
-          });
-        })
-        .on("mouseout", function (e, d) {
-          setMeta({ ...meta, hoverMessage: null, xHover: null, yHover: null });
-        })
-
-        // Tooltip
         .append("title")
-        .text((d) => `${xVar}: ${d[xVar]}; ${yVar}: ${d[yVar]}`);
+        .text((d: any) => `${xVar}: ${d[xVar]}; ${yVar}: ${d[yVar]}`);
 
       // yAxis Label
       svg
@@ -177,7 +121,7 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         .attr("width", height)
         .attr("height", 24)
         .attr("dy", "1em")
-        .attr("y", 0 - margin.left + 10)
+        .attr("y", 0 - margin.left - 5)
         .attr("x", 0 - height)
         .append("xhtml:body")
         .attr("xmlns", "http://www.w3.org/1999/xhtml")
@@ -196,7 +140,7 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         .attr("width", width)
         .attr("height", 24)
         .attr("x", 0)
-        .attr("y", height + 30)
+        .attr("y", height + 60)
         .append("xhtml:body")
         .attr("xmlns", "http://www.w3.org/1999/xhtml")
         .html(
@@ -226,6 +170,35 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
           }
         });
 
+      // Legend
+      let legend = svg
+        .selectAll(".legend")
+        .data(grouperSet.slice())
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+          return "translate(" + (width - 30) + ", " + i * 20 + ")";
+        });
+
+      legend
+        .append("rect")
+        .attr("x", 10)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", (i) => {
+          return colorScale(zMap[i]);
+        });
+
+      legend
+        .append("text")
+        .attr("x", 40)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .text(function (d) {
+          return d;
+        });
+
       svg.exit().remove();
     }
   }, [data, d3Container.current, parentRef, meta, rerenderFlag]);
@@ -239,7 +212,7 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
           style={{
             left: meta.xPopUp,
             top: meta.yPopUp,
-            borderColor: accentColor,
+            borderColor: "#ccc",
           }}
           contentEditable={true}
           onKeyDown={(e: any) => {
@@ -263,17 +236,25 @@ export default function BarChart({ data, xVar, yVar }: IProps) {
         <div
           className="absolute flex flex-col p-2 space-y-2 bg-white border rounded dark:bg-zinc-800"
           style={{
-            left: meta.xHover,
+            left: meta.xHover + 10,
             top: meta.yHover - 25,
-            borderColor: accentColor,
+            borderColor: "#ccc",
           }}
         >
-          <span>
-            <span className="font-medium">{yVar}:</span> {meta.hoverMessage[0]}
-          </span>
-          <span>
-            <span className="font-medium">{xVar}:</span> {meta.hoverMessage[1]}
-          </span>
+          {meta.hoverMessage.map((e: any, index: any) => {
+            let indexLookup = {
+              0: yVar,
+              1: xVar,
+            };
+            return (
+              <span key={e}>
+                <span className="font-medium">
+                  {indexLookup[index] || "grouper"}:
+                </span>{" "}
+                {e}
+              </span>
+            );
+          })}
         </div>
       ) : null}
       <svg

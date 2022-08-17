@@ -1,5 +1,6 @@
 import BarChart from "../D3/BarChart";
 import HorizontalBarChart from "../D3/HorizontalBarChart";
+import HorizontalStackedBarChart from "../D3/HorizontalStackedBarChart";
 import StackedBarChart from "../D3/StackedBarchart";
 import { useState } from "react";
 
@@ -168,14 +169,20 @@ export function renderOrientedBarChart({
 
     let firstRow = rows.shift();
 
-    return (
-      <HorizontalBarChart
-        data={data}
-        xVar={cols[0]}
-        yVar={firstRow}
-        grouper={rows}
-      />
-    );
+    if (rows.length > 1) {
+      return null;
+    } else if (cols == undefined || rows.length == 1) {
+      return (
+        <HorizontalStackedBarChart
+          data={data}
+          xVar={cols[0]}
+          yVar={firstRow}
+          grouper={rows}
+        />
+      );
+    } else {
+      return <HorizontalBarChart data={data} xVar={cols[0]} yVar={firstRow} />;
+    }
   }
 
   return null;
