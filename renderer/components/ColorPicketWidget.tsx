@@ -31,7 +31,6 @@ function ColorDropdown({
   data,
   setData,
   alignTextRight = false,
-  iconMap = null,
 }: IProps) {
   let [selection, setSelection] = useState(options[0]);
 
@@ -76,7 +75,9 @@ function ColorDropdown({
                     )}
                     onClick={(e) => {
                       let newStyle = { ...data.style };
+                      //@ts-ignore
                       newStyle.selectedPalette = e.target.innerText;
+                      //@ts-ignore
                       newStyle.colors = newStyle.palettes[e.target.innerText];
                       setData({ ...data, style: newStyle });
                     }}

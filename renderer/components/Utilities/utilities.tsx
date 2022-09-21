@@ -1,7 +1,5 @@
-import BarChart from "../D3/BarChart";
 import HorizontalBarChart from "../D3/HorizontalBarChart";
 import HorizontalStackedBarChart from "../D3/HorizontalStackedBarChart";
-import StackedBarChart from "../D3/StackedBarchart";
 import { useState } from "react";
 
 import Dropzone from "react-dropzone";

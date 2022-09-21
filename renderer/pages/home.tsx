@@ -99,11 +99,19 @@ const Home: NextPage = () => {
           setState={setState}
         />
         <div className="grid h-full grid-rows-4 bg-transparent ml-60 dark:bg-zinc-900 dark:text-white">
-          <div className="w-full row-span-3 p-12">
+          <div className="row-span-3 p-12 pt-16">
             {data.aggData ? (
               renderOrientedBarChart({ state: state, data: data })
+            ) : data.data ? (
+              <div className="flex flex-col items-center justify-center h-full space-y-2">
+                <div className="text-4xl">Data loaded!</div>
+                <div className="text-zinc-500">
+                  Tell us what to visualize using the drag-and-drop on the
+                  right.
+                </div>
+              </div>
             ) : (
-              <DropZoneComponent />
+              <DropZoneComponent data={data} setData={setData} />
             )}
           </div>
           <div className="relative row-span-1 overflow-x-auto border-t border-zinc-200">
@@ -111,10 +119,6 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
-      {/* 
-      <footer className='flex items-center ml-60 h-screen-1/12'>
-        graphic
-      </footer> */}
     </div>
   );
 };
