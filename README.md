@@ -3,8 +3,9 @@
 [recording.webm](https://user-images.githubusercontent.com/26579930/191428824-825ed9aa-f8f2-4a47-b5ed-702c3a8f285c.webm)
 
 ## Description
-- Electron
 This app. emulates many of my favorite Tableau features using Electron and Next.js. Tableau is a fantastic tool for building data visualizations, but it's become bloated, slow, and expensive since the Salesforce acquisition. The purpose of this project was to build an alternative app that I could use for high-quality D3 visualizations while learning about:
+
+- Electron
 - TypeScript
 - JS Visualizations (D3)
 - Drag-and-drop UIs (react-beautiful-dnd)
