@@ -1,5 +1,8 @@
 # Graphik: A Tableau-esque Electron App
 
+[https://user-images.githubusercontent.com/tableau_electron_app/main/renderer/public/recording.mov
+](https://github.com/ntlind/tableau_electron_app/blob/main/renderer/public/recording.mov?raw=true)
+
 ## Description
 - Electron
 This app. emulates many of my favorite Tableau features using Electron and Next.js. Tableau is a fantastic tool for building data visualizations, but it's become bloated, slow, and expensive since the Salesforce acquisition. The purpose of this project was to build an alternative app that I could use for high-quality D3 visualizations while learning about:
