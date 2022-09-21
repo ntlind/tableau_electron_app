@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { BsCalculatorFill } from "react-icons/bs";
+import { ImParagraphLeft } from "react-icons/im";
 import { BsPaintBucket } from "react-icons/bs";
 import Switch from "../components/ToggleSwitch";
 import Listbox from "./Listboxes/Listbox";
@@ -96,18 +96,6 @@ export default function HeaderBar({
         >
           Load test data and set state
         </button>
-        <button
-          className="theme-button-outline"
-          onClick={(e) => {
-            LoadD3File("/hierarchical_retail_sales.csv").then(
-              (response: any) => {
-                setState([state[0], state[1], state[3], state[2], state[4]]);
-              }
-            );
-          }}
-        >
-          Switch rows and columns
-        </button>
         <Switch isOn={isOn} setIsOn={(e: any) => setIsOn(e)} />
       </div>
     </div>
@@ -118,10 +106,7 @@ export function getChartIconList() {
   let iconClass = "h-5 w-5 stroke-1 text-theme mr-2 dark:text-sky-200";
 
   let iconMap = {
-    BarChart: <BsCalculatorFill className={iconClass} />,
-    LineChart: <BsCalculatorFill className={iconClass} />,
-    Map: <BsCalculatorFill className={iconClass} />,
-    ScatterPlot: <BsCalculatorFill className={iconClass} />,
+    BarChart: <ImParagraphLeft className={iconClass} />,
   };
   return iconMap;
 }

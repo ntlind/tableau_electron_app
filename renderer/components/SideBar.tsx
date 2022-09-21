@@ -191,7 +191,7 @@ export default function DataSelector({
                         }[ind]
                       }
                     </div>
-                    {el.map((item: any, index: number) => (
+                    {el?.map((item: any, index: number) => (
                       <Draggable
                         key={item.id}
                         draggableId={item.id}
@@ -238,6 +238,16 @@ export default function DataSelector({
           </DragDropContext>
         </div>
       </div>
+      {data.data ? (
+        <button
+          className="mx-4 mt-12 theme-button-outline"
+          onClick={(e) => {
+            setState([state[0], state[1], state[3], state[2], state[4]]);
+          }}
+        >
+          Switch rows and columns
+        </button>
+      ) : null}
       <button className="flex flex-row items-center justify-center h-24 border-t-[.5px] border-zinc-200 hover:bg-zinc-100">
         Sign In
       </button>

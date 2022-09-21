@@ -1,3 +1,5 @@
+import BarChart from "../D3/BarChart";
+import StackedBarChart from "../D3/StackedBarchart";
 import HorizontalBarChart from "../D3/HorizontalBarChart";
 import HorizontalStackedBarChart from "../D3/HorizontalStackedBarChart";
 import { useState } from "react";

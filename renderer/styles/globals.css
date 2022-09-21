@@ -204,15 +204,15 @@
     @apply bg-theme;
   }
   .theme-button-outline {
-    @apply border-theme border px-3 py-1 text-theme hover:text-white hover:bg-theme-darker hover:border-theme-darker transition ease-in duration-200;
+    @apply px-3 py-1 transition duration-200 ease-in border border-zinc-800 text-zinc-800 hover:text-white hover:bg-theme-darker hover:border-theme-darker dark:border-zinc-100 dark:text-zinc-100;
   }
 
   .theme-button-white-outline {
-    @apply border-white border px-3 py-1 hover:text-black hover:bg-white transition ease-in duration-200;
+    @apply px-3 py-1 transition duration-200 ease-in border border-white hover:text-black hover:bg-white;
   }
 
   .theme-button {
-    @apply px-3 py-1 bg-theme hover:bg-theme-darker text-white hover:text-white hover:shadow-lg transition ease-in duration-200 focus:outline-none cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed;
+    @apply px-3 py-1 text-white transition duration-200 ease-in cursor-pointer bg-theme hover:bg-theme-darker hover:text-white hover:shadow-lg focus:outline-none disabled:bg-gray-500 disabled:cursor-not-allowed;
   }
 
   .arrow span {
@@ -266,7 +266,7 @@
     filter: grayscale(80%);
   }
   .section-x {
-    @apply px-6 lg:px-24 2xl:px-36 mx-auto;
+    @apply px-6 mx-auto lg:px-24 2xl:px-36;
   }
   .section-y {
     @apply py-14 2xl:py-28;
