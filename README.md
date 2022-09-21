@@ -1,7 +1,7 @@
 # Graphik: A Tableau-esque Electron App
 
-![https://user-images.githubusercontent.com/tableau_electron_app/main/renderer/public/recording.mov
-](https://github.com/ntlind/tableau_electron_app/blob/main/renderer/public/recording.mov?raw=true)
+https://user-images.githubusercontent.com/tableau_electron_app/main/renderer/public/recording.mov
+
 
 ## Description
 - Electron
