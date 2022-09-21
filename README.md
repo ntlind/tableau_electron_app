@@ -1,6 +1,6 @@
 # Graphik: A Tableau-esque Electron App
 
-https://user-images.githubusercontent.com/tableau_electron_app/main/renderer/public/recording.mov
+[![app recording](https://user-images.githubusercontent.com/tableau_electron_app/main/renderer/public/recording.mov)
 
 
 ## Description
